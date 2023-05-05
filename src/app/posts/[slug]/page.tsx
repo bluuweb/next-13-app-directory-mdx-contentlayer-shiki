@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { allPosts } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
@@ -7,7 +8,24 @@ interface Props {
   };
 }
 
+export const generateStaticParams = () => {
+  // return [
+  //   {
+  //     slug: "01-blog"
+  //   },
+  //   {
+  //     slug: "02-blog"
+  //   },
+  //   {
+  //     slug: "03-blog"
+  //   }
+  // ]
+
+  return allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
+};
+
 export const generateMetadata = ({ params }: Props) => {
+  console.log(params);
   const post = allPosts.find((p) => p._raw.flattenedPath === params.slug);
 
   return {
@@ -22,7 +40,7 @@ const PostLayout = ({ params }: Props) => {
   let MDXContent;
 
   if (!post) {
-    return <div>Post not found</div>;
+    notFound();
   } else {
     MDXContent = useMDXComponent(post.body.code);
   }

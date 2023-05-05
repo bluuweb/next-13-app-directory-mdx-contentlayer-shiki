@@ -1,7 +1,6 @@
-import { allPosts, Post } from "contentlayer/generated";
-import Link from "next/link";
-
-const posts: Post[] = allPosts.sort((a, b) => b.date.localeCompare(a.date));
+import PostsLists from "@/components/PostsLists";
+import PostsPagination from "@/components/PostsPagination";
+import { getPostsPagination, totalPages } from "@/utils/PostsPaginationUtil";
 
 export const metadata = {
   title: "Lista de todos los post",
@@ -9,24 +8,14 @@ export const metadata = {
 };
 
 const Posts = () => {
+  const { currentPosts } = getPostsPagination();
+
   return (
     <div>
       <h1 className="text-center my-4 text-3xl">Posts</h1>
       <div className="grid gap-4">
-        {posts.map((post) => (
-          <article>
-            <h2 className="text-2xl">
-              <Link href={post.url}>{post.title}</Link>
-            </h2>
-            <time>
-              {new Date(post.date).toLocaleDateString("es-ES", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-          </article>
-        ))}
+        <PostsLists posts={currentPosts} />
+        {totalPages > 1 && <PostsPagination totalPages={totalPages} />}
       </div>
     </div>
   );

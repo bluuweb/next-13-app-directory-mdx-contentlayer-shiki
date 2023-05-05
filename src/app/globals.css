@@ -6,6 +6,32 @@ h2 {
   @apply my-4 text-indigo-500 text-2xl;
 }
 
+h3 {
+  @apply my-4 text-indigo-700 text-xl;
+}
+
 p {
   @apply my-4 text-gray-800;
+}
+
+
+
+pre > code {
+  @apply grid;
+}
+
+pre {
+  @apply p-4 rounded my-4 overflow-x-auto;
+}
+
+article pre > code {
+  @apply bg-transparent text-sm border-none;
+}
+
+article code {
+  @apply bg-gray-200 px-2 rounded text-sm border;
+}
+
+p > code, h3 > code {
+  @apply bg-gray-200 px-2 rounded text-sm;
 }
